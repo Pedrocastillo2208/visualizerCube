@@ -72,6 +72,33 @@ function checkIntersections() {
     }
 }
 
+// Atualiza as dimensões do cubo
+function updateCubeDimensions() {
+    var width = parseFloat(document.getElementById('widthSlider').value);
+    var height = parseFloat(document.getElementById('heightSlider').value);
+    var depth = parseFloat(document.getElementById('depthSlider').value);
+
+    // Atualiza os valores exibidos
+    document.getElementById('widthValue').innerText = width;
+    document.getElementById('heightValue').innerText = height;
+    document.getElementById('depthValue').innerText = depth;
+
+    // Atualiza a geometria do cubo
+    cube.geometry.dispose();
+    cube.geometry = new THREE.BoxGeometry(width, height, depth);
+
+    // Atualiza as arestas
+    scene.remove(line);
+    edges = new THREE.EdgesGeometry(cube.geometry);
+    line = new THREE.LineSegments(edges, lineMaterial);
+    scene.add(line);
+}
+
+// Adiciona event listeners aos sliders
+document.getElementById('widthSlider').addEventListener('input', updateCubeDimensions);
+document.getElementById('heightSlider').addEventListener('input', updateCubeDimensions);
+document.getElementById('depthSlider').addEventListener('input', updateCubeDimensions);
+
 // Função de animação
 function animate() {
     requestAnimationFrame(animate);
